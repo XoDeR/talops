@@ -16,8 +16,15 @@ class CompanyFactory extends Factory
      */
     public function definition(): array
     {
+        $name = fake()->company();
+        $address = fake()->streetAddress() . fake()->postcode() . fake()->city() . fake()->country();
+        $email = fake()->unique()->safeEmail();
+        $website = fake()->url();
         return [
-            //
+            'name' => $name,
+            'address' => $address,
+            'email' => $email,
+            'website' => $website,
         ];
     }
 }
