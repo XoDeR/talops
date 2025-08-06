@@ -4,7 +4,7 @@ import { Company, CompanyDisplay, PaginatedResponse, type BreadcrumbItem } from 
 import { Head } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { columns } from './CompaniesDataTable/CompaniesDataTableColumns';
-import CompaniesDataTable from '@/pages/Company/CompaniesDataTable/CompaniesDataTable.vue';
+import CompaniesDataTable from './CompaniesDataTable/CompaniesDataTable.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -28,6 +28,7 @@ const props = defineProps<CompaniesPageProps>()
 //console.log(props);
 console.log(props.companies.data);
 console.log(props.companies.meta);
+console.log(props.companies.links);
 
 // // With default values
 // const props = withDefaults(defineProps<Props>(), {
@@ -56,6 +57,7 @@ console.log(companiesDisplayData.value);
   <Head title="Companies" />
 
   <AppLayout :breadcrumbs="breadcrumbs">
-    <CompaniesDataTable :data="companiesDisplayData" :columns="columns" />
+    <CompaniesDataTable :data="companiesDisplayData" :columns="columns" :meta="props.companies.meta"
+      :links="props.companies.links" />
   </AppLayout>
 </template>
