@@ -47,6 +47,7 @@ const companiesDisplayData = computed<CompanyDisplay[]>(() => {
 })
 
 console.log(companiesDisplayData.value);
+
 </script>
 
 <template>
