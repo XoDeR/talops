@@ -18,7 +18,9 @@ class CompanyController extends Controller
      */
     public function index(): Response
     {
-        $companies = Company::with(['employees', 'logo'])->get();
+        //$companies = Company::with(['employees', 'logo'])->get();
+        $perPage = 10;
+        $companies = Company::with(['employees', 'logo'])->paginate($perPage);
 
         return Inertia::render(
             'Company/Index',

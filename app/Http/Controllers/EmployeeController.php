@@ -18,7 +18,9 @@ class EmployeeController extends Controller
      */
     public function index(): Response
     {
-        $employees = Employee::with(['company'])->get();
+        // $employees = Employee::with(['company'])->get();
+        $perPage = 10;
+        $employees = Employee::with(['company'])->paginate($perPage);
 
         return Inertia::render(
             'Employee/Index',
