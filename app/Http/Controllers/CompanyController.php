@@ -31,11 +31,18 @@ class CompanyController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new resource
+     *
+     * @return \Inertia\Response
      */
-    public function create()
+    public function create(): Response
     {
-        //
+        return Inertia::render(
+            'Company/Create',
+            [
+                //'companies' => CompanyResource::collection($companies),
+            ]
+        );
     }
 
     /**
@@ -47,19 +54,33 @@ class CompanyController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified resource
+     *
+     * @return \Inertia\Response
      */
-    public function show(Company $company)
+    public function show(Company $company): Response
     {
-        //
+        return Inertia::render(
+            'Company/Show',
+            [
+                //'companies' => CompanyResource::collection($companies),
+            ]
+        );
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified resource
+     *
+     * @return \Inertia\Response
      */
-    public function edit(Company $company)
+    public function edit(Company $company): Response
     {
-        //
+        return Inertia::render(
+            'Company/Edit',
+            [
+                //'companies' => CompanyResource::collection($companies),
+            ]
+        );
     }
 
     /**
@@ -75,6 +96,6 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        //
+        $company->delete();
     }
 }
