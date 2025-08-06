@@ -2,6 +2,7 @@ import type { LucideIcon } from 'lucide-vue-next';
 import type { Config } from 'ziggy-js';
 
 interface CompanyDisplay {
+    uuid: string;
     name: string;
     logo: string | null;
     address?: string;
@@ -51,6 +52,7 @@ interface CompanySummary {
 }
 
 interface Employee {
+    uuid: string;
     first_name: string;
     last_name: string;
     email?: string;
@@ -59,6 +61,7 @@ interface Employee {
 }
 
 interface Company {
+    uuid: string;
     name: string;
     address?: string;
     email?: string;

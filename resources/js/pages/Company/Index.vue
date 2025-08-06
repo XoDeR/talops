@@ -39,6 +39,7 @@ console.log(props.companies.meta);
 
 const companiesDisplayData = computed<CompanyDisplay[]>(() => {
   return props.companies.data.map((company) => ({
+    uuid: company.uuid,
     name: company.name,
     logo: company.logo?.name ?? null,
     address: company.address,
