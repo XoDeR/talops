@@ -20,6 +20,8 @@ class EmployeeResource extends JsonResource
             'last_name' => $this->last_name,
             'email' => $this->email,
             'phone' => $this->phone,
+
+            'company' => new CompanyResource($this->whenLoaded('company')),
         ];
     }
 }

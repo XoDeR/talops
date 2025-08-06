@@ -14,6 +14,10 @@ class LogoResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'uuid' => $this->uuid,
+            'name' => $this->name,
+            'original_name' => $this->original_name,
+        ];
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
+use App\Http\Resources\CompanyResource;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -17,10 +18,12 @@ class CompanyController extends Controller
      */
     public function index(): Response
     {
+        $companies = Company::with(['employees', 'logo'])->get();
+
         return Inertia::render(
             'Company/Index',
             [
-
+                'companies' => CompanyResource::collection($companies),
             ]
         );
     }
