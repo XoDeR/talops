@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Employee;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
+use App\Http\Resources\EmployeeResource;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -17,10 +18,12 @@ class EmployeeController extends Controller
      */
     public function index(): Response
     {
+        $employees = Employee::with(['company'])->get();
+
         return Inertia::render(
             'Employee/Index',
             [
-
+                'employees' => EmployeeResource::collection($employees),
             ]
         );
     }

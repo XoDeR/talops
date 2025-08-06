@@ -1,6 +1,36 @@
 import type { LucideIcon } from 'lucide-vue-next';
 import type { Config } from 'ziggy-js';
 
+export interface PaginatedResponse<T> {
+    data: T[];
+    meta: {
+        current_page: number;
+        last_page: number;
+        per_page: number;
+        total: number;
+        [key: string]: any; // optional
+    };
+    links: {
+        first: string;
+        last: string;
+        prev: string | null;
+        next: string | null;
+        [key: string]: any;
+    };
+}
+
+// Meta is not used, just an example
+type Meta = {
+    current_page: number;
+    from: number;
+    last_page: number;
+    links: { url: string | null; label: string; active: boolean }[];
+    path: string;
+    per_page: number;
+    to: number;
+    total: number;
+};
+
 interface Logo {
     name: string;
     original_name: string;

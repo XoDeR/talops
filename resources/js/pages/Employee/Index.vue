@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
+import { Employee, PaginatedResponse, type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -9,6 +9,13 @@ const breadcrumbs: BreadcrumbItem[] = [
     href: '/employees',
   },
 ];
+
+interface EmployeesPageProps {
+  employees: PaginatedResponse<Employee>
+}
+
+const props = defineProps<EmployeesPageProps>();
+console.log(props);
 </script>
 
 <template>
