@@ -6,13 +6,16 @@ use App\Models\Employee;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class EmployeeController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource
+     *
+     * @return \Inertia\Response
      */
-    public function index()
+    public function index(): Response
     {
         return Inertia::render(
             'Employee/Index',

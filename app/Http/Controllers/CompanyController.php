@@ -6,13 +6,16 @@ use App\Models\Company;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class CompanyController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource
+     *
+     * @return \Inertia\Response
      */
-    public function index()
+    public function index(): Response
     {
         return Inertia::render(
             'Company/Index',
