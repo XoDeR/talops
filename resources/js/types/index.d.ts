@@ -1,6 +1,13 @@
 import type { LucideIcon } from 'lucide-vue-next';
 import type { Config } from 'ziggy-js';
 
+interface CompanyDisplay {
+    name: string;
+    logo: string | null;
+    address?: string;
+    email?: string;
+}
+
 export interface PaginatedResponse<T> {
     data: T[];
     meta: {

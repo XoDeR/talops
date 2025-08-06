@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Company, PaginatedResponse, type BreadcrumbItem } from '@/types';
+import { Company, CompanyDisplay, PaginatedResponse, type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
+import { computed } from 'vue';
+import { columns } from './CompaniesDataTable/CompaniesDataTableColumns';
+import CompaniesDataTable from '@/pages/Company/CompaniesDataTable/CompaniesDataTable.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -31,6 +34,19 @@ console.log(props.companies.meta);
 //   age: 18,
 //   isAdmin: false
 // })
+
+
+
+const companiesDisplayData = computed<CompanyDisplay[]>(() => {
+  return props.companies.data.map((company) => ({
+    name: company.name,
+    logo: company.logo?.name ?? null,
+    address: company.address,
+    email: company.email,
+  }))
+})
+
+console.log(companiesDisplayData.value);
 </script>
 
 <template>
@@ -38,6 +54,6 @@ console.log(props.companies.meta);
   <Head title="Companies" />
 
   <AppLayout :breadcrumbs="breadcrumbs">
-    Companies
+    <CompaniesDataTable :data="companiesDisplayData" :columns="columns" />
   </AppLayout>
 </template>
