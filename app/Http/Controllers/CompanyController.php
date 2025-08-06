@@ -50,7 +50,9 @@ class CompanyController extends Controller
      */
     public function store(StoreCompanyRequest $request)
     {
-        //
+        Company::create($request);
+
+        return redirect()->route('companies.index');
     }
 
     /**

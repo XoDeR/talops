@@ -5,6 +5,8 @@ import { Head } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { columns } from './CompaniesDataTable/CompaniesDataTableColumns';
 import CompaniesDataTable from './CompaniesDataTable/CompaniesDataTable.vue';
+import Button from '@/components/ui/button/Button.vue';
+import { router } from '@inertiajs/vue3'
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -50,6 +52,13 @@ const companiesDisplayData = computed<CompanyDisplay[]>(() => {
 
 console.log(companiesDisplayData.value);
 
+const createNew = () => {
+  console.log("view")
+  router.visit(`/companies/create`, {
+    method: 'get',
+  })
+}
+
 </script>
 
 <template>
@@ -57,6 +66,11 @@ console.log(companiesDisplayData.value);
   <Head title="Companies" />
 
   <AppLayout :breadcrumbs="breadcrumbs">
+    <div class="flex items-center justify-start p-2">
+      <Button variant="secondary" @click="createNew">
+        Create a new company
+      </Button>
+    </div>
     <CompaniesDataTable :data="companiesDisplayData" :columns="columns" :meta="props.companies.meta"
       :links="props.companies.links" />
   </AppLayout>

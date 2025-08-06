@@ -11,7 +11,7 @@ class StoreCompanyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return !!$this->user() /*&& $this->user()->can('create', Company::class)*/;
     }
 
     /**
@@ -22,7 +22,35 @@ class StoreCompanyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => [
+                'required',
+                'string',
+                'between:3,255',
+            ],
+            'email' => [
+                'nullable',
+                'email',
+                'unique:companies,email',
+            ],
+            'address' => [
+                'nullable',
+                'string',
+                'between:3,1024',
+            ],
+            'website' => [
+                'nullable',
+                'string',
+                'between:3,255',
+            ],
+            'logo_uuid' => [
+                'nullable',
+                'string',
+                'uuid',
+            ],
+            'employee_uuid.*' => [
+                'nullable',
+                'exists:employees,uuid',
+            ],
         ];
     }
 }
