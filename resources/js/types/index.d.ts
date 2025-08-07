@@ -28,6 +28,10 @@ export interface PagesLinks {
     [key: string]: any;
 }
 
+export interface SingleItemInertiaResponse<T> {
+    data: T;
+}
+
 export interface PaginatedResponse<T> {
     data: T[];
     meta: {
@@ -71,7 +75,7 @@ interface CompanySummary {
     name: string;
     address?: string;
     email?: string;
-    phone?: string;
+    website?: string;
 }
 
 interface Employee {
@@ -88,7 +92,7 @@ interface Company {
     name: string;
     address?: string;
     email?: string;
-    phone?: string;
+    website?: string;
     logo?: Logo;
     employees?: Employee[];
 }

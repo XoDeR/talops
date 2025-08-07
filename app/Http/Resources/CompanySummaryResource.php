@@ -19,6 +19,7 @@ class CompanySummaryResource extends JsonResource
             'name' => $this->name,
             'address' => $this->address,
             'email' => $this->email,
+            'website' => $this->website,
         ];
     }
 }

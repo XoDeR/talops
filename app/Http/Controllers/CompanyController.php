@@ -62,10 +62,15 @@ class CompanyController extends Controller
      */
     public function show(Company $company): Response
     {
+        $company->load([
+            'logo',
+            'employees',
+        ]);
+
         return Inertia::render(
             'Company/Show',
             [
-                //'companies' => CompanyResource::collection($companies),
+                'company' => new CompanyResource($company),
             ]
         );
     }

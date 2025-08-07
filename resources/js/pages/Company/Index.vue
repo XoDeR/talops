@@ -27,18 +27,11 @@ interface CompaniesPageProps {
 
 const props = defineProps<CompaniesPageProps>()
 
-//console.log(props);
-console.log(props.companies.data);
-console.log(props.companies.meta);
-console.log(props.companies.links);
-
 // // With default values
 // const props = withDefaults(defineProps<Props>(), {
 //   age: 18,
 //   isAdmin: false
 // })
-
-
 
 const companiesDisplayData = computed<CompanyDisplay[]>(() => {
   return props.companies.data.map((company) => ({
@@ -49,8 +42,6 @@ const companiesDisplayData = computed<CompanyDisplay[]>(() => {
     email: company.email,
   }))
 })
-
-console.log(companiesDisplayData.value);
 
 const createNew = () => {
   console.log("view")
