@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Http\Resources\CompanyResource;
+use App\Models\Logo;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -50,8 +51,15 @@ class CompanyController extends Controller
      */
     public function store(StoreCompanyRequest $request)
     {
-        Company::create($request->validated());
-
+        $companyData = $request->validated();
+        $company = Company::create($companyData);
+        if ($request->logo_uuid) {
+            $logo = Logo::where('uuid', $request->logo_uuid)->first();
+            if ($logo) {
+                // because company has hasOne relationship, there is no direct attach or accosiate method for hasOne
+                $company->logo()->save($logo);
+            }
+        }
         return redirect()->route('companies.index');
     }
 

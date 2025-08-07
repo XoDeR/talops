@@ -21,7 +21,7 @@ const form = useForm({
   last_name: '',
   email: '',
   phone: '',
-  company_id: '',
+  company_uuid: '',
 })
 
 const submit = () => {

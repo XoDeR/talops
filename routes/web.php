@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\LogoController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -17,6 +18,9 @@ Route::get('dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::resource('companies', CompanyController::class);
     Route::resource('employees', EmployeeController::class);
+    Route::resource('logos', LogoController::class, [
+        'only' => ['store'],
+    ]);
 });
 
 require __DIR__.'/settings.php';

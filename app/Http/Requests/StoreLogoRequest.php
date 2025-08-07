@@ -11,7 +11,7 @@ class StoreLogoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return !!$this->user() /*&& $this->user()->can('create', Company::class)*/;
     }
 
     /**
@@ -22,7 +22,16 @@ class StoreLogoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'image' => [
+                'required',
+                'image',
+                // 'max:2048',
+            ],
+            'original_name' => [
+                'required',
+                'string',
+                // 'between:3,255',
+            ],
         ];
     }
 }

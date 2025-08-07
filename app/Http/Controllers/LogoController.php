@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Logo;
 use App\Http\Requests\StoreLogoRequest;
 use App\Http\Requests\UpdateLogoRequest;
+use Illuminate\Support\Str;
 
 class LogoController extends Controller
 {
@@ -29,7 +30,27 @@ class LogoController extends Controller
      */
     public function store(StoreLogoRequest $request)
     {
-        //
+        //dd($request);
+
+        // $validated = $request->validate([
+        //     'image' => ['required', 'image', 'max:2048'],
+        // ]);
+
+        $originalName = $request->input('original_name');
+
+        $extension = pathinfo($originalName, PATHINFO_EXTENSION);
+        $uuid = Str::uuid();
+        $generatedName = "{$uuid}.{$extension}";
+
+        $file = $request->file('image');
+        $file->storeAs('logos', $generatedName, 'public');
+
+        $logo = Logo::create([
+            'name' => $generatedName,
+            'original_name' => $originalName,
+        ]);
+
+        return response()->json(['uuid' => $logo->uuid]);
     }
 
     /**

@@ -7,6 +7,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { LoaderCircle } from 'lucide-vue-next';
+import { ref } from 'vue'
+import axios from 'axios';
+import { onUnmounted } from 'vue'
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -20,7 +23,7 @@ const form = useForm({
   address: '',
   email: '',
   website: '',
-  logo_id: '',
+  logo_uuid: null,
 })
 
 const submit = () => {
@@ -28,6 +31,42 @@ const submit = () => {
     onSuccess: () => form.reset(),
   })
 }
+
+const uploading = ref(false)
+
+const previewUrl = ref<string | null>(null)
+
+async function handleLogoUpload(event: Event) {
+  const target = event.target as HTMLInputElement
+  const file = target.files?.[0]
+  if (!file) return
+
+  if (previewUrl.value) {
+    URL.revokeObjectURL(previewUrl.value)
+  }
+  previewUrl.value = URL.createObjectURL(file)
+
+  const data = new FormData()
+  data.append('image', file)
+  data.append('original_name', file.name)
+
+  uploading.value = true
+
+  try {
+    const response = await axios.post('/logos', data)
+    form.logo_uuid = response.data.uuid
+  } catch (error) {
+    console.error('Upload failed:', error)
+  } finally {
+    uploading.value = false
+  }
+}
+
+onUnmounted(() => {
+  if (previewUrl.value) {
+    URL.revokeObjectURL(previewUrl.value)
+  }
+})
 </script>
 
 <template>
@@ -43,6 +82,16 @@ const submit = () => {
             <Input id="name" type="text" name="name" autocomplete="text" v-model="form.name"
               class="mt-1 block w-full" />
             <InputError :message="form.errors.name" class="mt-2" />
+          </div>
+
+          <div class="grid gap-2">
+            <Label for="logo">Logo:</Label>
+            <input id="logo" type="file" name="logo" accept="image/png, image/jpeg, image/jpg" class="mt-1 block w-full"
+              @change="handleLogoUpload" />
+            <div v-if="previewUrl">
+              <img :src="previewUrl" alt="Preview" class="h-20 w-20" />
+            </div>
+            <LoaderCircle v-if="uploading" class="h-4 w-4 animate-spin" />
           </div>
 
           <div class="grid gap-2">
