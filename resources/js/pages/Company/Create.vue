@@ -4,6 +4,11 @@ import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue'
 import { useForm } from '@inertiajs/vue3'
+import InputError from '@/components/InputError.vue';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { LoaderCircle } from 'lucide-vue-next';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -14,37 +19,61 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 const form = useForm({
   name: '',
+  address: '',
   email: '',
+  website: '',
+  logo_id: '',
 })
 
-function submit() {
-  form.post('/companies', {
+const submit = () => {
+  form.post(route('companies.store'), {
     onSuccess: () => form.reset(),
   })
 }
 </script>
 
 <template>
-
-  <Head title="Company" />
   <AppLayout :breadcrumbs="breadcrumbs">
-    <div>
-      <h1>Create Company</h1>
 
-      <form @submit.prevent="submit">
-        <div>
-          <label>Name:</label>
-          <input v-model="form.name" type="text" />
-          <span v-if="form.errors.name">{{ form.errors.name }}</span>
+    <Head title="Create Company" />
+    <div class="w-full lg:w-1/2 px-4 lg:mx-auto">
+      <h1 class="font-bold text-2xl my-6">Create Company</h1>
+      <form @submit.prevent="submit" class="w-full">
+        <div class="grid gap-6">
+          <div class="grid gap-2">
+            <Label for="name">Name:</Label>
+            <Input id="name" type="text" name="name" autocomplete="text" v-model="form.name"
+              class="mt-1 block w-full" />
+            <InputError :message="form.errors.name" class="mt-2" />
+          </div>
+
+          <div class="grid gap-2">
+            <Label for="address">Address:</Label>
+            <Input id="address" type="text" name="address" autocomplete="text" v-model="form.address"
+              class="mt-1 block w-full" />
+            <InputError :message="form.errors.address" class="mt-2" />
+          </div>
+
+          <div class="grid gap-2">
+            <Label for="email">Email:</Label>
+            <Input id="email" type="email" name="email" autocomplete="email" v-model="form.email"
+              class="mt-1 block w-full" />
+            <InputError :message="form.errors.email" class="mt-2" />
+          </div>
+
+          <div class="grid gap-2">
+            <Label for="website">Website:</Label>
+            <Input id="website" type="text" name="website" autocomplete="text" v-model="form.website"
+              class="mt-1 block w-full" />
+            <InputError :message="form.errors.website" class="mt-2" />
+          </div>
+
+          <Button type="submit" class="mt-4 w-full" :disabled="form.processing">
+            <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
+            Create
+          </Button>
+
         </div>
-
-        <div>
-          <label>Email:</label>
-          <input v-model="form.email" type="email" />
-          <span v-if="form.errors.email">{{ form.errors.email }}</span>
-        </div>
-
-        <button type="submit" :disabled="form.processing">Create</button>
       </form>
     </div>
   </AppLayout>
