@@ -54,4 +54,13 @@ class Company extends Model
     {
         return $this->hasMany(Employee::class);
     }
+
+    protected static function booted()
+    {
+        static::deleting(function ($company) {
+            if ($company->logo) {
+                $company->logo->delete();
+            }
+        });
+    }
 }
