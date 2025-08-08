@@ -60,7 +60,7 @@ class CompanyController extends Controller
                 $company->logo()->save($logo);
             }
         }
-        return redirect()->route('companies.index');
+        return redirect()->route('companies.show', $company->uuid);
     }
 
     /**
@@ -90,10 +90,11 @@ class CompanyController extends Controller
      */
     public function edit(Company $company): Response
     {
+        $company->load('logo');
         return Inertia::render(
             'Company/Edit',
             [
-                //'companies' => CompanyResource::collection($companies),
+                'company' => new CompanyResource($company),
             ]
         );
     }
@@ -103,7 +104,28 @@ class CompanyController extends Controller
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
-        //
+        // update only if fields are present in the request
+        $company->update($request->only([
+            'name',
+            'address',
+            'email',
+            'website',
+        ]));
+
+        if ($request->logo_uuid) {
+            $newLogoUuid = $request->logo_uuid;
+            if ($company->logo) {
+                $prevLogoUuid = $company->logo->uuid;
+                if ($prevLogoUuid && $prevLogoUuid !== $newLogoUuid) {
+                    $company->logo->delete();
+                }
+            }
+            $logo = Logo::where('uuid', $newLogoUuid)->first();
+            if ($logo) {
+                $company->logo()->save($logo);
+            }
+        }
+        return redirect()->route('companies.show', $company->uuid);
     }
 
     /**

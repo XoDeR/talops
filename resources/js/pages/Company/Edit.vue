@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
+import { Company, SingleItemInertiaResponse, type BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3'
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
@@ -11,6 +11,13 @@ import { ref } from 'vue'
 import axios from 'axios';
 import { onUnmounted } from 'vue'
 
+interface CompanyProps {
+  company: SingleItemInertiaResponse<Company>
+}
+
+const props = defineProps<CompanyProps>()
+console.log(props.company.data);
+
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Companies',
@@ -19,15 +26,15 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const form = useForm({
-  name: '',
-  address: '',
-  email: '',
-  website: '',
+  name: props.company.data.name,
+  address: props.company.data.address,
+  email: props.company.data.email,
+  website: props.company.data.website,
   logo_uuid: null,
 })
 
 const submit = () => {
-  form.post(route('companies.store'), {
+  form.put(route('companies.update', { company: props.company.data.uuid }), {
     onSuccess: () => form.reset(),
   })
 }
@@ -90,6 +97,14 @@ onUnmounted(() => {
               @change="handleLogoUpload" />
             <div v-if="previewUrl">
               <img :src="previewUrl" alt="Preview" class="h-20 w-20" />
+            </div>
+            <div v-else>
+              <div v-if="company.data.logo">
+                <img :src="`/storage/logos/${company.data.logo?.name}`" alt="Logo" class="h-20 w-20" />
+              </div>
+              <div v-else>
+                No Logo
+              </div>
             </div>
             <LoaderCircle v-if="uploading" class="h-4 w-4 animate-spin" />
           </div>
