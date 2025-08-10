@@ -30,8 +30,6 @@ class LogoController extends Controller
      */
     public function store(StoreLogoRequest $request)
     {
-        //dd($request);
-
         // $validated = $request->validate([
         //     'image' => ['required', 'image', 'max:2048'],
         // ]);

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateEmployeeRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class UpdateEmployeeRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return !!$this->user() /*&& $this->user()->can('create', Company::class)*/;
     }
 
     /**
@@ -22,7 +23,31 @@ class UpdateEmployeeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'first_name' => [
+                'required',
+                'string',
+                'between:3,255',
+            ],
+            'last_name' => [
+                'required',
+                'string',
+                'between:3,255',
+            ],
+            'email' => [
+                'nullable',
+                'email',
+                Rule::unique('employees', 'email')->ignore($this->employee->id),
+            ],
+            'phone' => [
+                'nullable',
+                'string',
+                'between:3,255',
+            ],
+            'company_uuid' => [
+                'nullable',
+                'string',
+                'uuid',
+            ],
         ];
     }
 }
