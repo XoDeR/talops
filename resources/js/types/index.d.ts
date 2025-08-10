@@ -1,6 +1,14 @@
 import type { LucideIcon } from 'lucide-vue-next';
 import type { Config } from 'ziggy-js';
 
+interface EmployeeDisplay {
+    uuid: string;
+    name: string;
+    company: string | null;
+    email?: string;
+    phone?: string;
+}
+
 interface CompanyDisplay {
     uuid: string;
     name: string;

@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Employee, PaginatedResponse, type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/vue3';
+import { Employee, EmployeeDisplay, PaginatedResponse, type BreadcrumbItem } from '@/types';
+import { Head, router } from '@inertiajs/vue3';
+import { computed } from 'vue';
+import { columns } from './EmployeesDataTable/EmployeesDataTableColumns';
+import EmployeesDataTable from './EmployeesDataTable/EmployeesDataTable.vue';
+import Button from '@/components/ui/button/Button.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -15,7 +19,22 @@ interface EmployeesPageProps {
 }
 
 const props = defineProps<EmployeesPageProps>();
-console.log(props);
+
+const employeesDisplayData = computed<EmployeeDisplay[]>(() => {
+  return props.employees.data.map((employee) => ({
+    uuid: employee.uuid,
+    name: employee.first_name + ' ' + employee.last_name,
+    company: employee.company?.name ?? null,
+    email: employee.email,
+    phone: employee.phone,
+  }))
+})
+
+const createNew = () => {
+  router.visit(`/employees/create`, {
+    method: 'get',
+  })
+}
 </script>
 
 <template>
@@ -23,6 +42,12 @@ console.log(props);
   <Head title="Employees" />
 
   <AppLayout :breadcrumbs="breadcrumbs">
-    Employees
+    <div class="flex items-center justify-start p-2">
+      <Button variant="secondary" @click="createNew">
+        Create a new employee
+      </Button>
+    </div>
+    <EmployeesDataTable :data="employeesDisplayData" :columns="columns" :meta="props.employees.meta"
+      :links="props.employees.links" />
   </AppLayout>
 </template>

@@ -5,34 +5,34 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { router } from '@inertiajs/vue3'
 
 defineProps<{
-  companyDisplay: {
+  employeeDisplay: {
     uuid: string
   }
 }>()
 
 function view(uuid: string) {
-  router.visit(`/companies/${uuid}`, {
+  router.visit(`/employees/${uuid}`, {
     method: 'get',
   })
 }
 
 function edit(uuid: string) {
-  router.visit(`/companies/${uuid}/edit`, {
+  router.visit(`/employees/${uuid}/edit`, {
     method: 'get',
   })
 }
 
 function deleteItem(uuid: string) {
-  if (confirm("Are you sure you want to delete this company?")) {
-    router.delete(`/companies/${uuid}`, {
+  if (confirm("Are you sure you want to delete this employee?")) {
+    router.delete(`/employees/${uuid}`, {
       preserveScroll: true,
       preserveState: true,
       onSuccess: () => {
-        console.log("Company deleted")
+        //console.log("Company deleted")
       },
     })
   } else {
-    console.log("Deletion cancelled")
+    //console.log("Deletion cancelled")
   }
 }
 </script>
@@ -46,14 +46,14 @@ function deleteItem(uuid: string) {
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end">
-      <DropdownMenuItem @click="view(companyDisplay.uuid)">
+      <DropdownMenuItem @click="view(employeeDisplay.uuid)">
         View
       </DropdownMenuItem>
-      <DropdownMenuItem @click="edit(companyDisplay.uuid)">
+      <DropdownMenuItem @click="edit(employeeDisplay.uuid)">
         Edit
       </DropdownMenuItem>
       <DropdownMenuSeparator />
-      <DropdownMenuItem @click="deleteItem(companyDisplay.uuid)">
+      <DropdownMenuItem @click="deleteItem(employeeDisplay.uuid)">
         Delete
       </DropdownMenuItem>
     </DropdownMenuContent>

@@ -15,23 +15,11 @@ const breadcrumbs: BreadcrumbItem[] = [
   },
 ];
 
-//interface Props {
-//  companies: Company[]
-//}
-
-//const props = defineProps<Props>();
-
 interface CompaniesPageProps {
   companies: PaginatedResponse<Company>
 }
 
 const props = defineProps<CompaniesPageProps>()
-
-// // With default values
-// const props = withDefaults(defineProps<Props>(), {
-//   age: 18,
-//   isAdmin: false
-// })
 
 const companiesDisplayData = computed<CompanyDisplay[]>(() => {
   return props.companies.data.map((company) => ({
@@ -44,12 +32,10 @@ const companiesDisplayData = computed<CompanyDisplay[]>(() => {
 })
 
 const createNew = () => {
-  console.log("view")
   router.visit(`/companies/create`, {
     method: 'get',
   })
 }
-
 </script>
 
 <template>
