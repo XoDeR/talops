@@ -16,7 +16,6 @@ interface CompanyProps {
 }
 
 const props = defineProps<CompanyProps>()
-console.log(props.company.data);
 
 const breadcrumbs: BreadcrumbItem[] = [
   {

@@ -32,8 +32,6 @@ const submit = () => {
 </script>
 
 <template>
-
-  <Head title="Employee" />
   <AppLayout :breadcrumbs="breadcrumbs">
 
     <Head title="Create Employee" />
