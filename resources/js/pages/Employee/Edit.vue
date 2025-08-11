@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import InputError from '@/components/InputError.vue';
+import SelectCustom from '@/components/SelectCustom.vue';
 import Button from '@/components/ui/button/Button.vue';
 import Input from '@/components/ui/input/Input.vue';
 import Label from '@/components/ui/label/Label.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Employee, SingleItemInertiaResponse, type BreadcrumbItem } from '@/types';
+import { CompanySummary, Employee, MultipleItemInertiaResponse, SingleItemInertiaResponse, type BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
 
@@ -17,6 +18,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 interface EmployeeProps {
   employee: SingleItemInertiaResponse<Employee>
+  allCompanies: MultipleItemInertiaResponse<CompanySummary>
 }
 
 const props = defineProps<EmployeeProps>()
@@ -26,7 +28,7 @@ const form = useForm({
   last_name: props.employee.data.last_name,
   email: props.employee.data.email,
   phone: props.employee.data.phone,
-  company_uuid: null,
+  company_uuid: props.employee.data.company?.uuid || '',
 })
 
 const submit = () => {
@@ -57,6 +59,13 @@ const submit = () => {
             <Input id="last_name" type="text" name="last_name" autocomplete="text" v-model="form.last_name"
               class="mt-1 block w-full" />
             <InputError :message="form.errors.last_name" class="mt-2" />
+          </div>
+
+          <div class="grid gap-2">
+            <p class="text-sm font-semibold">Company:</p>
+            <SelectCustom v-model="form.company_uuid"
+              :options="props.allCompanies.data.map(({ uuid, name }) => ({ uuid, name }))" />
+            <InputError :message="form.errors.company_uuid" class="mt-2" />
           </div>
 
           <div class="grid gap-2">
