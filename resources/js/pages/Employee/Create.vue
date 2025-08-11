@@ -42,14 +42,14 @@ const submit = () => {
       <form @submit.prevent="submit" class="w-full">
         <div class="grid gap-6">
           <div class="grid gap-2">
-            <Label for="name">First Name:</Label>
+            <Label for="first_name">First Name:</Label>
             <Input id="first_name" type="text" name="first_name" autocomplete="text" v-model="form.first_name"
               class="mt-1 block w-full" />
             <InputError :message="form.errors.first_name" class="mt-2" />
           </div>
 
           <div class="grid gap-2">
-            <Label for="address">Last Name:</Label>
+            <Label for="last_name">Last Name:</Label>
             <Input id="last_name" type="text" name="last_name" autocomplete="text" v-model="form.last_name"
               class="mt-1 block w-full" />
             <InputError :message="form.errors.last_name" class="mt-2" />
@@ -63,7 +63,7 @@ const submit = () => {
           </div>
 
           <div class="grid gap-2">
-            <Label for="website">Phone:</Label>
+            <Label for="phone">Phone:</Label>
             <Input id="phone" type="text" name="phone" autocomplete="text" v-model="form.phone"
               class="mt-1 block w-full" />
             <InputError :message="form.errors.phone" class="mt-2" />
