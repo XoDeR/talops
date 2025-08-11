@@ -55,8 +55,9 @@ class CompanyController extends Controller
         if ($request->logo_uuid) {
             $logo = Logo::where('uuid', $request->logo_uuid)->first();
             if ($logo) {
-                // because company has hasOne relationship, there is no direct attach or accosiate method for hasOne
-                $company->logo()->save($logo);
+                // with already existing logo
+                $logo->company()->associate($company);
+                $logo->save();
             }
         }
         return redirect()->route('companies.show', $company->uuid);
@@ -116,12 +117,15 @@ class CompanyController extends Controller
             if ($company->logo) {
                 $prevLogoUuid = $company->logo->uuid;
                 if ($prevLogoUuid && $prevLogoUuid !== $newLogoUuid) {
-                    $company->logo->delete();
+                    $company->logo->delete(); // delete logo model
+                    $company->unsetRelation('logo'); // clear relationship
                 }
             }
             $logo = Logo::where('uuid', $newLogoUuid)->first();
             if ($logo) {
-                $company->logo()->save($logo);
+                // with already existing logo
+                $logo->company()->associate($company);
+                $logo->save();
             }
         }
         return redirect()->route('companies.show', $company->uuid);
