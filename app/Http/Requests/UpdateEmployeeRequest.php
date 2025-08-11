@@ -47,6 +47,7 @@ class UpdateEmployeeRequest extends FormRequest
                 'nullable',
                 'string',
                 'uuid',
+                'exists:companies,uuid',
             ],
         ];
     }

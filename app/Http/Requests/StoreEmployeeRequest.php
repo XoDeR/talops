@@ -46,6 +46,7 @@ class StoreEmployeeRequest extends FormRequest
                 'nullable',
                 'string',
                 'uuid',
+                'exists:companies,uuid',
             ],
         ];
     }

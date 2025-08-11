@@ -6,6 +6,7 @@ use App\Models\Employee;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use App\Http\Resources\CompanyResource;
+use App\Http\Resources\CompanySummaryResource;
 use App\Http\Resources\EmployeeResource;
 use App\Models\Company;
 use Inertia\Inertia;
@@ -39,13 +40,13 @@ class EmployeeController extends Controller
     public function create(): Response
     {
         // a list of companies to select
-        // to which company to attacha created employee
+        // to which company to attach a created employee
         $companies = Company::get();
 
         return Inertia::render(
             'Employee/Create',
             [
-                'companies' => CompanyResource::collection($companies),
+                'allCompanies' => CompanySummaryResource::collection($companies),
             ]
         );
     }
@@ -58,8 +59,13 @@ class EmployeeController extends Controller
         $employeeData = $request->validated();
         $employee = Employee::create($employeeData);
         if ($request->company_uuid) {
-            // TODO
+            $company = Company::where('uuid', $request->company_uuid)->first();
+            if ($company) {
+                $employee->company()->associate($company);
+                $employee->save();
+            }
         }
+
         return redirect()->route('employees.show', $employee->uuid);
     }
 
@@ -88,11 +94,13 @@ class EmployeeController extends Controller
         $employee->load([
             'company',
         ]);
+        $companies = Company::get();
 
         return Inertia::render(
             'Employee/Edit',
             [
                 'employee' => new EmployeeResource($employee),
+                'allCompanies' => CompanySummaryResource::collection($companies),
             ]
         );
     }
@@ -111,7 +119,11 @@ class EmployeeController extends Controller
         ]));
 
         if ($request->company_uuid) {
-            // TODO
+            $company = Company::where('uuid', $request->company_uuid)->first();
+            if ($company) {
+                $employee->company()->associate($company);
+                $employee->save();
+            }
         }
         return redirect()->route('employees.show', $employee->uuid);
     }

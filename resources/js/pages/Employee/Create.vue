@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
+import { CompanySummary, MultipleItemInertiaResponse, type BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3'
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { LoaderCircle } from 'lucide-vue-next';
+import { LoaderCircle, UploadCloudIcon } from 'lucide-vue-next';
+import SelectCustom from '@/components/SelectCustom.vue';
 
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -15,6 +16,14 @@ const breadcrumbs: BreadcrumbItem[] = [
     href: '/employees',
   },
 ];
+
+interface EmployeeProps {
+  allCompanies: MultipleItemInertiaResponse<CompanySummary>
+}
+
+const props = defineProps<EmployeeProps>();
+
+console.log(props.allCompanies.data);
 
 const form = useForm({
   first_name: '',
@@ -51,6 +60,13 @@ const submit = () => {
             <Input id="last_name" type="text" name="last_name" autocomplete="text" v-model="form.last_name"
               class="mt-1 block w-full" />
             <InputError :message="form.errors.last_name" class="mt-2" />
+          </div>
+
+          <div class="grid gap-2">
+            <p class="text-sm font-semibold">Company:</p>
+            <SelectCustom v-model="form.company_uuid"
+              :options="props.allCompanies.data.map(({ uuid, name }) => ({ uuid, name }))" />
+            <InputError :message="form.errors.company_uuid" class="mt-2" />
           </div>
 
           <div class="grid gap-2">

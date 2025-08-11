@@ -40,6 +40,10 @@ export interface SingleItemInertiaResponse<T> {
     data: T;
 }
 
+export interface MultipleItemInertiaResponse<T> {
+    data: T[];
+}
+
 export interface PaginatedResponse<T> {
     data: T[];
     meta: {
@@ -80,6 +84,7 @@ interface Logo {
 }
 
 interface CompanySummary {
+    uuid: string;
     name: string;
     address?: string;
     email?: string;
